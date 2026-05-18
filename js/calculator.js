@@ -36,8 +36,23 @@ function operate(operandOne, operator, operandTwo){
     }
 }
 
-let numberOne = +prompt('Number: ');
-let operator = prompt('Operators: +,-,*,/');
-let numberTwo = +prompt('Number: ');
 
-operate(numberOne, operator, numberTwo);
+let numberOne = null;
+let operator = "";
+let numberTwo = null;
+
+// Event listeners
+const calculatorScreen = document.querySelector('.calculator-text');
+const calculator = document.querySelector(".calculator-body");
+calculator.addEventListener("click", (e) => {
+    //console.log(e.target.innerText);
+    const regularExpression = /[+\-x/]/;
+    if(e.target.innerText.match(regularExpression)){
+        operator = e.target.innerText;
+        calculatorScreen.textContent = operator;
+    } else if(numberOne === null){
+        numberOne = +e.target.innerText;
+    } else if(numberTwo === null){
+        numberTwo = +e.target.innerText;
+    }
+});
