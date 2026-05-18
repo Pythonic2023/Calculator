@@ -1,6 +1,39 @@
 .calculator-body {
     display: flex;
-    outline: 1px solid red;
-    height: 600px;
+    flex-wrap: wrap;
+    height: 500px;
     width: 500px;
+    align-content:space-evenly;
+    background-color: grey;
+    padding: 10px;
+}
+
+.calculator-screen {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    height: 100px;
+    width: 100dvw;
+    margin: 10px;
+    background-color: lightgrey;
+    font-size: 40px;
+}
+
+.calculator-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 5px;
+    padding-top: 40px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 17.05%;
+    height: 80px;
+    background-color: white;
+    font-size: 20px;
 }
