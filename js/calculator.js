@@ -1,26 +1,35 @@
 function add(operandOne, operandTwo){
     let result = operandOne + operandTwo;
-    console.log(result);
     calculatorScreen.textContent = result;
+    clearOperandsAndOperator();
 }
 
 function subtract(operandOne, operandTwo){
     let result = operandOne - operandTwo;
-    console.log(result);
     calculatorScreen.textContent = result;
+    clearOperandsAndOperator();
 }
 
 function multiply(operandOne, operandTwo){
     let result = operandOne * operandTwo;
-    console.log(result);
     calculatorScreen.textContent = result;
+    clearOperandsAndOperator();
 }
 
 function divide(operandOne, operandTwo){
     let result = operandOne / operandTwo;
-    console.log(result);
     calculatorScreen.textContent = result;
+    clearOperandsAndOperator();
 }
+
+// Gets called by above function after result is shown in calculator. It clears our variables for the next operation.
+function clearOperandsAndOperator(){
+    numberOne = null;
+    operator = "";
+    numberTwo = null;
+    operation = "";
+}
+
 
 // Call apropriate function based on operator.
 function operate(operandOne, operator, operandTwo){
@@ -31,7 +40,7 @@ function operate(operandOne, operator, operandTwo){
         case "-":
             subtract(operandOne, operandTwo);
             break;
-        case "*":
+        case "x":
             multiply(operandOne, operandTwo);
             break;
         case "/":
@@ -67,17 +76,12 @@ calculator.addEventListener("click", (e) => {
     }
 
     if(e.target.innerText === "Clear"){
-        numberOne = null;
-        numberTwo = null;
-        operator = "";
-        operation = "";
         calculatorScreen.textContent = "";
+        clearOperandsAndOperator();
     }
 
     if(e.target.innerText === "="){
         operate(numberOne, operator, numberTwo);
-        numberOne = null;
-        numberTwo = null;
-        operator = ""
+        clearOperandsAndOperator;
     }
 });
