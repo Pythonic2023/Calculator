@@ -55,6 +55,28 @@ function operate(operandOne, operator, operandTwo){
     }
 }
 
+function assignOperator(operator){
+    operation = numberOne + operator; 
+    calculatorScreen.textContent = "";
+    calculatorScreen.textContent =  operation;
+}
+
+function assignOperandOne(){
+    let numberOneString = numberOneArray.join("");
+    numberOne = +numberOneString;
+    let operationString = numberOne;
+    operation = operationString;
+    calculatorScreen.textContent = operation;
+}
+
+function assignOperandTwo(){
+    let numberTwoString = numberTwoArray.join("");
+    numberTwo = +numberTwoString;
+    let operationString = numberTwo;
+    operation = operationString;
+    calculatorScreen.textContent = numberOne + operator + operation;
+}
+
 let numberOneArray = [];
 let numberOne = null;
 let operator = "";
@@ -69,27 +91,17 @@ calculator.addEventListener("click", (e) => {
     const regularExpression = /[+\-x/]/;
     if(e.target.innerText.match(regularExpression)){
         operator = e.target.innerText;
-        operation = numberOne + operator; 
-        calculatorScreen.textContent = "";
-        calculatorScreen.textContent =  operation;
+       assignOperator(operator);
     } else if(!operator.match(regularExpression)){
         numberOneArray.push(+e.target.innerText);
-        let numberOneString = numberOneArray.join("");
-        numberOne = +numberOneString;
-        let operationString = numberOne;
-        operation = operationString;
-        calculatorScreen.textContent = operation;
+        assignOperandOne();
     } else if(e.target.innerText === "="){
         operation = "";
         calculatorScreen.textContent = operation;
         operate(numberOne, operator, numberTwo);
     } else{
         numberTwoArray.push(+e.target.innerText);
-        let numberTwoString = numberTwoArray.join("");
-        numberTwo = +numberTwoString;
-        let operationString = numberTwo;
-        operation = operationString;
-        calculatorScreen.textContent = numberOne + operator + operation;
+        assignOperandTwo();
     }
 
     if(e.target.innerText === "Clear"){
