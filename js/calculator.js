@@ -1,22 +1,29 @@
 function add(operandOne, operandTwo){
+    clearOperandsAndOperator();
     let result = operandOne + operandTwo;
     calculatorScreen.textContent = result;
+    numberOne = result;
 }
 
 function subtract(operandOne, operandTwo){
+    clearOperandsAndOperator();
     let result = operandOne - operandTwo;
     calculatorScreen.textContent = result;
+    numberOne = result;
 }
 
 function multiply(operandOne, operandTwo){
-    //clearOperandsAndOperator();
+    clearOperandsAndOperator();
     let result = operandOne * operandTwo;
     calculatorScreen.textContent = result;
+    numberOne = result;
 }
 
 function divide(operandOne, operandTwo){
+    clearOperandsAndOperator();
     let result = operandOne / operandTwo;
     calculatorScreen.textContent = result;
+    numberOne = result;
 }
 
 // Gets called by above function after result is shown in calculator. It clears our variables for the next operation.
@@ -62,8 +69,9 @@ calculator.addEventListener("click", (e) => {
     const regularExpression = /[+\-x/]/;
     if(e.target.innerText.match(regularExpression)){
         operator = e.target.innerText;
-        operation += operator;
-        calculatorScreen.textContent = operation;
+        operation = numberOne + operator; 
+        calculatorScreen.textContent = "";
+        calculatorScreen.textContent =  operation;
     } else if(!operator.match(regularExpression)){
         numberOneArray.push(+e.target.innerText);
         let numberOneString = numberOneArray.join("");
@@ -72,6 +80,8 @@ calculator.addEventListener("click", (e) => {
         operation = operationString;
         calculatorScreen.textContent = operation;
     } else if(e.target.innerText === "="){
+        operation = "";
+        calculatorScreen.textContent = operation;
         operate(numberOne, operator, numberTwo);
     } else{
         numberTwoArray.push(+e.target.innerText);
