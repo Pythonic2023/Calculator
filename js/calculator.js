@@ -24,10 +24,14 @@ function multiply(operandOne, operandTwo){
 
 function divide(operandOne, operandTwo){
     clearOperandsAndOperator();
-    let result = operandOne / operandTwo;
-    //calculatorScreen.textContent = result;
-    numberOne = result;
-    roundBigNumber(result);
+    if(operandOne === 0 || operandTwo === 0){
+        calculatorScreen.textContent = "Can't divide by zero.";
+    } else {
+        let result = operandOne / operandTwo;
+        //calculatorScreen.textContent = result;
+        numberOne = result;
+        roundBigNumber(result);
+    }
 }
 
 // New
