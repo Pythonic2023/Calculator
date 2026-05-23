@@ -1,29 +1,50 @@
 function add(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne + operandTwo;
-    calculatorScreen.textContent = result;
+    //calculatorScreen.textContent = result;
     numberOne = result;
+    roundBigNumber(result);
 }
 
 function subtract(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne - operandTwo;
-    calculatorScreen.textContent = result;
+    //calculatorScreen.textContent = result;
     numberOne = result;
+    roundBigNumber(result);
 }
 
 function multiply(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne * operandTwo;
-    calculatorScreen.textContent = result;
+    //calculatorScreen.textContent = result;
     numberOne = result;
+    roundBigNumber(result);
 }
 
 function divide(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne / operandTwo;
-    calculatorScreen.textContent = result;
+    //calculatorScreen.textContent = result;
     numberOne = result;
+    roundBigNumber(result);
+}
+
+// New
+function roundBigNumber(number){
+    let numberString = String(number);
+    let decimalRegex = /\.(\d)/;
+    if(numberString.match(decimalRegex)){
+        if(numberString.match(decimalRegex)[1] >= 5){
+            let roundedUpNumber = Math.round(number);
+            calculatorScreen.textContent = roundedUpNumber;
+        } else{
+            let roundedDownNumber = Math.floor(number);
+            calculatorScreen.textContent = roundedDownNumber;
+        }
+    } else {
+        calculatorScreen.textContent = number;
+    }
 }
 
 // Gets called by above function after result is shown in calculator. It clears our variables for the next operation.
