@@ -1,7 +1,6 @@
 function add(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne + operandTwo;
-    //calculatorScreen.textContent = result;
     numberOne = result;
     roundBigNumber(result);
 }
@@ -9,7 +8,6 @@ function add(operandOne, operandTwo){
 function subtract(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne - operandTwo;
-    //calculatorScreen.textContent = result;
     numberOne = result;
     roundBigNumber(result);
 }
@@ -17,7 +15,6 @@ function subtract(operandOne, operandTwo){
 function multiply(operandOne, operandTwo){
     clearOperandsAndOperator();
     let result = operandOne * operandTwo;
-    //calculatorScreen.textContent = result;
     numberOne = result;
     roundBigNumber(result);
 }
@@ -28,13 +25,11 @@ function divide(operandOne, operandTwo){
         calculatorScreen.textContent = "Can't divide by zero.";
     } else {
         let result = operandOne / operandTwo;
-        //calculatorScreen.textContent = result;
         numberOne = result;
         roundBigNumber(result);
     }
 }
 
-// New
 function roundBigNumber(number){
     let numberString = String(number);
     let decimalRegex = /\.(\d)/;
@@ -64,8 +59,6 @@ function clearOperandsAndOperator(){
 
 // Call apropriate function based on operator.
 function operate(operandOne, operator, operandTwo){
-    console.log(`Operand one: ${operandOne}`);
-    console.log(`Operand two: ${operandTwo}`);
     if(operandOne === null || operandTwo === null){
         calculatorScreen.textContent = "Operand null";
     } else {
