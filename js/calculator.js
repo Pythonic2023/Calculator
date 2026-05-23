@@ -60,19 +60,25 @@ function clearOperandsAndOperator(){
 
 // Call apropriate function based on operator.
 function operate(operandOne, operator, operandTwo){
-    switch(operator){
-        case "+":
-            add(operandOne, operandTwo);
-            break;
-        case "-":
-            subtract(operandOne, operandTwo);
-            break;
-        case "x":
-            multiply(operandOne, operandTwo);
-            break;
-        case "/":
-            divide(operandOne, operandTwo);
-            break;
+    console.log(`Operand one: ${operandOne}`);
+    console.log(`Operand two: ${operandTwo}`);
+    if(operandOne === null || operandTwo === null){
+        calculatorScreen.textContent = "Operand null";
+    } else {
+        switch(operator){
+            case "+":
+                add(operandOne, operandTwo);
+                break;
+            case "-":
+                subtract(operandOne, operandTwo);
+                break;
+            case "x":
+                multiply(operandOne, operandTwo);
+                break;
+            case "/":
+                divide(operandOne, operandTwo);
+                break;
+        }    
     }
 }
 
