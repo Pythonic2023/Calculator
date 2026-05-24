@@ -1,36 +1,58 @@
 function add(operandOne, operandTwo){
-    clearOperandsAndOperator();
-    let result = operandOne + operandTwo;
-    numberOne = result;
-    roundBigNumber(result);
-}
-
-function subtract(operandOne, operandTwo){
-    clearOperandsAndOperator();
-    let result = operandOne - operandTwo;
-    numberOne = result;
-    roundBigNumber(result);
-}
-
-function multiply(operandOne, operandTwo){
-    clearOperandsAndOperator();
-    let result = operandOne * operandTwo;
-    numberOne = result;
-    roundBigNumber(result);
-}
-
-function divide(operandOne, operandTwo){
-    clearOperandsAndOperator();
-    if(operandOne === 0 || operandTwo === 0){
-        calculatorScreen.textContent = "Can't divide by zero.";
+    clearOperandsAndOperator(clearNumberOne = false);
+    if(String(operandOne).match(/\./) || String(operandTwo).match(/\./)){
+        let floatingNumber = parseFloat(operandOne + operandTwo).toFixed(2);
+        calculatorScreen.textContent = floatingNumber;
+        numberOne = floatingNumber;
     } else {
-        let result = operandOne / operandTwo;
+        let result = operandOne + operandTwo;
         numberOne = result;
-        roundBigNumber(result);
+        roundNumber(result);
     }
 }
 
-function roundBigNumber(number){
+function subtract(operandOne, operandTwo){
+    clearOperandsAndOperator(clearNumberOne = false);
+     if(String(operandOne).match(/./) || String(operandTwo).match(/./)){
+        let floatingNumber = parseFloat(operandOne - operandTwo).toFixed(2);
+        calculatorScreen.textContent = floatingNumber;
+        numberOne = floatingNumber;
+    } else {
+        let result = operandOne - operandTwo;
+        numberOne = result;
+        roundNumber(result);
+    }
+}
+
+function multiply(operandOne, operandTwo){
+    clearOperandsAndOperator(clearNumberOne = false);
+    if(String(operandOne).match(/./) || String(operandTwo).match(/./)){
+        let floatingNumber = parseFloat(operandOne * operandTwo).toFixed(2);
+        calculatorScreen.textContent = floatingNumber;
+        numberOne = floatingNumber;
+    } else {
+        let result = operandOne * operandTwo;
+        numberOne = result;
+        roundNumber(result);
+    }
+}
+
+function divide(operandOne, operandTwo){
+    clearOperandsAndOperator(clearNumberOne = false);
+    if(operandOne === 0 || operandTwo === 0){
+        calculatorScreen.textContent = "Can't divide by zero.";
+    } else if(String(operandOne).match(/./) || String(operandTwo).match(/./)){
+        let floatingNumber = parseFloat(operandOne / operandTwo).toFixed(2);
+        calculatorScreen.textContent = floatingNumber;
+        numberOne = floatingNumber;
+    } else {
+        let result = operandOne / operandTwo;
+        numberOne = result;
+        roundNumber(result);
+    }
+}
+
+function roundNumber(number){
     let numberString = String(number);
     let decimalRegex = /\.(\d)/;
     if(numberString.match(decimalRegex)){
@@ -46,16 +68,29 @@ function roundBigNumber(number){
     }
 }
 
-// Gets called by above function after result is shown in calculator. It clears our variables for the next operation.
-function clearOperandsAndOperator(){
-    numberOneArray = [];
-    numberOne = null;
-    operator = "";
-    numberTwoArray = [];
-    numberTwo = null;
-    operation = "";
+function clearOperandsAndOperator(clearNumberOne){
+    if(clearNumberOne === false){
+        numberOneArray = [];
+        operator = "";
+        numberTwoArray = [];
+        numberTwo = null;
+        operation = "";
+    } else {
+        numberOneArray = [];
+        numberOne = null;
+        operator = "";
+        numberTwoArray = [];
+        numberTwo = null;
+        operation = "";
+    }
 }
 
+/*
+function continueCalculations(){
+    clearNumberOne = false;
+    clearOperandsAndOperator();
+}
+*/
 
 // Call apropriate function based on operator.
 function operate(operandOne, operator, operandTwo){
@@ -64,16 +99,16 @@ function operate(operandOne, operator, operandTwo){
     } else {
         switch(operator){
             case "+":
-                add(operandOne, operandTwo);
+                add(+operandOne, +operandTwo);
                 break;
             case "-":
-                subtract(operandOne, operandTwo);
+                subtract(+operandOne, +operandTwo);
                 break;
             case "x":
-                multiply(operandOne, operandTwo);
+                multiply(+operandOne, +operandTwo);
                 break;
             case "/":
-                divide(operandOne, operandTwo);
+                divide(+operandOne, +operandTwo);
                 break;
         }    
     }
@@ -87,7 +122,7 @@ function assignOperator(operator){
 
 function assignOperandOne(){
     let numberOneString = numberOneArray.join("");
-    numberOne = +numberOneString;
+    numberOne = numberOneString;
     let operationString = numberOne;
     operation = operationString;
     calculatorScreen.textContent = operation;
@@ -95,7 +130,7 @@ function assignOperandOne(){
 
 function assignOperandTwo(){
     let numberTwoString = numberTwoArray.join("");
-    numberTwo = +numberTwoString;
+    numberTwo = numberTwoString;
     let operationString = numberTwo;
     operation = operationString;
     calculatorScreen.textContent = numberOne + operator + operation;
@@ -112,19 +147,28 @@ let operation = "";
 const calculatorScreen = document.querySelector('.calculator-text');
 const calculator = document.querySelector(".calculator-body");
 calculator.addEventListener("click", (e) => {
-    const regularExpression = /[+\-x/]/;
-    if(e.target.innerText.match(regularExpression)){
+    const operatorExpression = /[+\-x/]/;
+    const decimalExpression = /\./;
+    if(e.target.innerText.match(operatorExpression)){
         operator = e.target.innerText;
        assignOperator(operator);
-    } else if(!operator.match(regularExpression)){
-        numberOneArray.push(+e.target.innerText);
+    } else if(!operator.match(operatorExpression) && !e.target.innerText.match(decimalExpression)){
+        numberOneArray.push(e.target.innerText);
         assignOperandOne();
     } else if(e.target.innerText === "="){
         operation = "";
         calculatorScreen.textContent = operation;
         operate(numberOne, operator, numberTwo);
+    } else if(e.target.innerText == "."){
+        if(!operator.match(operatorExpression)){
+            numberOneArray.push('.');
+            assignOperandOne();
+        } else {
+            numberTwoArray.push('.');
+            assignOperandTwo();
+        }
     } else{
-        numberTwoArray.push(+e.target.innerText);
+        numberTwoArray.push(e.target.innerText);
         assignOperandTwo();
     }
 
