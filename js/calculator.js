@@ -151,7 +151,7 @@ calculator.addEventListener("click", (e) => {
     const decimalExpression = /\./;
     if(e.target.innerText.match(operatorExpression)){
         operator = e.target.innerText;
-       assignOperator(operator);
+        assignOperator(operator);
     } else if(!operator.match(operatorExpression) && !e.target.innerText.match(decimalExpression)){
         numberOneArray.push(e.target.innerText);
         assignOperandOne();
@@ -160,10 +160,10 @@ calculator.addEventListener("click", (e) => {
         calculatorScreen.textContent = operation;
         operate(numberOne, operator, numberTwo);
     } else if(e.target.innerText == "."){
-        if(!operator.match(operatorExpression)){
+        if(!operator.match(operatorExpression) && !numberOne.match(decimalExpression)){
             numberOneArray.push('.');
             assignOperandOne();
-        } else {
+        } else if(numberTwo != null && !numberTwo.match(decimalExpression)) {
             numberTwoArray.push('.');
             assignOperandTwo();
         }
