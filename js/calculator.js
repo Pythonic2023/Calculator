@@ -58,13 +58,13 @@ function roundNumber(number){
     if(numberString.match(decimalRegex)){
         if(numberString.match(decimalRegex)[1] >= 5){
             let roundedUpNumber = Math.round(number);
-            calculatorScreen.textContent = roundedUpNumber;
+            calculatorScreen.textContent = roundedUpNumber + operator;
         } else{
             let roundedDownNumber = Math.floor(number);
-            calculatorScreen.textContent = roundedDownNumber;
+            calculatorScreen.textContent = roundedDownNumber + operator;
         }
     } else {
-        calculatorScreen.textContent = number;
+        calculatorScreen.textContent = number + operator;
     }
 }
 
@@ -96,12 +96,10 @@ function deleteLastEntry(){
     } else {
         numberTwo = numberTwo.slice(0, -1);
         numberTwoArray = numberTwoArray.slice(0, -1);
-        console.log(numberTwo);
         calculatorScreen.textContent = numberOne + operator + numberTwo;
     }
 }
 
-// Call apropriate function based on operator.
 function operate(operandOne, operator, operandTwo){
     if(operandOne === null || operandTwo === null){
         calculatorScreen.textContent = "Operand null";
@@ -123,7 +121,8 @@ function operate(operandOne, operator, operandTwo){
     }
 }
 
-function assignOperator(operator){
+function assignOperator(op){
+    operator = op;
     operation = numberOne + operator; 
     calculatorScreen.textContent = "";
     calculatorScreen.textContent =  operation;
@@ -145,31 +144,25 @@ function assignOperandTwo(){
     calculatorScreen.textContent = numberOne + operator + operation;
 }
 
-let numberOneArray = [];
-let numberOne = null;
-let operator = "";
-let numberTwoArray = [];
-let numberTwo = null;
-let operation = "";
-
-// Event listeners
-const calculatorScreen = document.querySelector('.calculator-text');
-const calculator = document.querySelector(".calculator-body");
-calculator.addEventListener("click", (e) => {
-    const operatorExpression = /[+\-x/]/;
+function handleClick(e){
+    const operatorExpression = /[+\-x\/]/;
     const decimalExpression = /\./;
+
     if(e.target.innerText.match(operatorExpression) && operator == ""){
         operator = e.target.innerText;
         assignOperator(operator);
+    } else if(e.target.innerText.match(operatorExpression) && operator.match(operatorExpression)){
+        operate(numberOne, operator, numberTwo);
+        operator = e.target.innerText;
+        calculatorScreen.textContent = numberOne + operator;
     } else if(e.target.innerText == "Delete"){
         deleteLastEntry();
     } else if(!operator.match(operatorExpression) && !e.target.innerText.match(decimalExpression)){
         numberOneArray.push(e.target.innerText);
         assignOperandOne();
-    } else if(e.target.innerText === "=" || e.target.innerText.match(operatorExpression)){
+    } else if(e.target.innerText === "="){
         operation = "";
-        calculatorScreen.textContent = operation;
-        operate(numberOne, operator, numberTwo);
+        operate(numberOne, operator, numberTwo);  
     } else if(e.target.innerText == "."){
         if(!operator.match(operatorExpression) && !numberOne.match(decimalExpression)){
             numberOneArray.push('.');
@@ -188,4 +181,16 @@ calculator.addEventListener("click", (e) => {
         clearOperandsAndOperator();
     }
 
-});
+    
+}
+
+let numberOneArray = [];
+let numberOne = null;
+let operator = "";
+let numberTwoArray = [];
+let numberTwo = null;
+let operation = "";
+
+const calculatorScreen = document.querySelector('.calculator-text');
+const calculator = document.querySelector(".calculator-body");
+calculator.addEventListener("click", e => handleClick(e)); 
