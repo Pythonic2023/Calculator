@@ -133,7 +133,9 @@ function assignOperandOne(){
     numberOne = numberOneString;
     let operationString = numberOne;
     operation = operationString;
+    calculatorScreen.textContent = "";
     calculatorScreen.textContent = operation;
+    console.log(`Operation: ${operation}`);
 }
 
 function assignOperandTwo(){
@@ -141,7 +143,7 @@ function assignOperandTwo(){
     numberTwo = numberTwoString;
     let operationString = numberTwo;
     operation = operationString;
-    calculatorScreen.textContent = numberOne + operator + operation;
+   calculatorScreen.textContent = numberOne + operator + operation;
 }
 
 function handleClick(e){
@@ -184,6 +186,50 @@ function handleClick(e){
     
 }
 
+/*
+function updateDisplay(){
+    if(numberOne != null){
+        calculatorScreen.textContent = numberOne;
+    } else if(numberTwo != null){
+        calculatorScreen.textContent = numberOne + operator + numberTwo;
+    } else if(numberOne != null && operator.length != 0){
+        calculatorScreen.textContent = numberOne + operator;
+    }
+}
+*/
+
+function handleKeyPress(e){
+
+    const operatorExpression = /[\-+\/x]/;
+    const numberExpression = /[0-9]/;
+    const decimalExpression = /[\.]/;
+
+    switch(true){
+        case (operatorExpression.test(e.key)):
+            if(numberOne != null){
+                newOperator = e.key;
+                console.log('assigning operator');
+                assignOperator(newOperator);
+                break;
+                //updateDisplay();
+            }
+        case (operator == "" && numberExpression.test(e.key)):
+            numberOneArray.push(e.key);
+            assignOperandOne();
+            console.log(`Number one: ${numberOne}`);
+            break;
+        
+        case (operator != "" && numberExpression.test(e.key)):
+            numberTwoArray.push(e.key);
+            assignOperandTwo();
+            break;
+        
+        case (decimalExpression.test(e.key)):
+            console.log(e.key);
+            break;
+    }
+}
+
 let numberOneArray = [];
 let numberOne = null;
 let operator = "";
@@ -193,4 +239,6 @@ let operation = "";
 
 const calculatorScreen = document.querySelector('.calculator-text');
 const calculator = document.querySelector(".calculator-body");
+const body = document.querySelector("body");
 calculator.addEventListener("click", e => handleClick(e)); 
+body.addEventListener("keydown", e => handleKeyPress(e));
