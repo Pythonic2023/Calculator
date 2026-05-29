@@ -202,30 +202,43 @@ function handleKeyPress(e){
 
     const operatorExpression = /[\-+\/x]/;
     const numberExpression = /[0-9]/;
-    const decimalExpression = /[\.]/;
+    const decimalExpression = /[\.]/g;
 
     switch(true){
-        case (operatorExpression.test(e.key)):
-            if(numberOne != null){
-                newOperator = e.key;
-                console.log('assigning operator');
-                assignOperator(newOperator);
-                break;
-                //updateDisplay();
-            }
-        case (operator == "" && numberExpression.test(e.key)):
+        case(operatorExpression.test(e.key) && numberOne != null):
+            newOperator = e.key;
+            console.log('assigning operator');
+            assignOperator(newOperator);
+            break;
+            //updateDisplay();
+
+        case(operator == "" && numberExpression.test(e.key)):
             numberOneArray.push(e.key);
             assignOperandOne();
             console.log(`Number one: ${numberOne}`);
             break;
-        
-        case (operator != "" && numberExpression.test(e.key)):
+
+        case(operator == "" && !numberOne.includes(".") && decimalExpression.test(e.key)):
+            numberOneArray.push(e.key);
+            assignOperandOne();
+            break;
+
+        case(operator != "" && numberExpression.test(e.key)):
             numberTwoArray.push(e.key);
             assignOperandTwo();
             break;
-        
-        case (decimalExpression.test(e.key)):
-            console.log(e.key);
+
+        case(operator != "" && !numberTwo.includes(".") && decimalExpression.test(e.key)):
+            numberTwoArray.push(e.key);
+            assignOperandTwo();
+            break;
+
+        case(e.key == "Enter" && numberTwo != null):
+            operate(numberOne, operator, numberTwo);
+            break;
+
+        case(e.key == "Backspace" || e.key == "Delete"):
+            deleteLastEntry();
             break;
     }
 }
