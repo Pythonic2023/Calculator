@@ -223,7 +223,7 @@ function handleKeyPress(e){
             assignOperandOne();
             break;
 
-        case(operator == "" && !numberOne.includes(".") && decimalExpression.test(e.key)):
+        case(operator == "" && numberOne != null && !String(numberOne).includes(".") && decimalExpression.test(e.key)):
             numberOneArray.push(e.key);
             assignOperandOne();
             break;
@@ -233,7 +233,7 @@ function handleKeyPress(e){
             assignOperandTwo();
             break;
 
-        case(operator != "" && !numberTwo.includes(".") && decimalExpression.test(e.key)):
+        case(operator != "" && !String(numberTwo).includes(".") && decimalExpression.test(e.key)):
             numberTwoArray.push(e.key);
             assignOperandTwo();
             break;
