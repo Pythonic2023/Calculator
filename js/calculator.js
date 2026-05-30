@@ -91,18 +91,15 @@ function clearOperandsAndOperator(clearNumberOne){
 function deleteLastEntry(){
     if(numberTwo === null && operator != ""){
         operator = "";
-        //calculatorScreen.textContent = numberOne;
         updateDisplay();
     } else if(numberOne != null && operator.length == 0){
         let stringNumberOne = String(numberOne);
         numberOne = stringNumberOne.slice(0, -1);
         numberOneArray = numberOneArray.slice(0, -1);
-        //calculatorScreen.textContent = numberOne;
         updateDisplay();
     } else {
         numberTwo = numberTwo.slice(0, -1);
         numberTwoArray = numberTwoArray.slice(0, -1);
-        //calculatorScreen.textContent = numberOne + operator + numberTwo;
         updateDisplay();
     }
 }
