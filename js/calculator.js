@@ -74,29 +74,30 @@ function clearOperandsAndOperator(clearNumberOne){
         operator = "";
         numberTwoArray = [];
         numberTwo = null;
-        operation = "";
     } else {
         numberOneArray = [];
         numberOne = null;
         operator = "";
         numberTwoArray = [];
         numberTwo = null;
-        operation = "";
     }
 }
 
 function deleteLastEntry(){
     if(numberTwo === "" && operator != ""){
         operator = "";
-        calculatorScreen.textContent = numberOne;
+        //calculatorScreen.textContent = numberOne;
+        updateDisplay();
     } else if(numberOne != null && operator.length == 0){
         numberOne = numberOne.slice(0, -1);
         numberOneArray = numberOneArray.slice(0, -1);
-        calculatorScreen.textContent = numberOne;
+        //calculatorScreen.textContent = numberOne;
+        updateDisplay();
     } else {
         numberTwo = numberTwo.slice(0, -1);
         numberTwoArray = numberTwoArray.slice(0, -1);
-        calculatorScreen.textContent = numberOne + operator + numberTwo;
+        //calculatorScreen.textContent = numberOne + operator + numberTwo;
+        updateDisplay();
     }
 }
 
@@ -123,27 +124,21 @@ function operate(operandOne, operator, operandTwo){
 
 function assignOperator(op){
     operator = op;
-    operation = numberOne + operator; 
-    calculatorScreen.textContent = "";
-    calculatorScreen.textContent =  operation;
+    updateDisplay();
 }
 
 function assignOperandOne(){
     let numberOneString = numberOneArray.join("");
     numberOne = numberOneString;
     let operationString = numberOne;
-    operation = operationString;
-    calculatorScreen.textContent = "";
-    calculatorScreen.textContent = operation;
-    console.log(`Operation: ${operation}`);
+    updateDisplay();
 }
 
 function assignOperandTwo(){
     let numberTwoString = numberTwoArray.join("");
     numberTwo = numberTwoString;
     let operationString = numberTwo;
-    operation = operationString;
-   calculatorScreen.textContent = numberOne + operator + operation;
+    updateDisplay();
 }
 
 function handleClick(e){
@@ -163,7 +158,6 @@ function handleClick(e){
         numberOneArray.push(e.target.innerText);
         assignOperandOne();
     } else if(e.target.innerText === "="){
-        operation = "";
         operate(numberOne, operator, numberTwo);  
     } else if(e.target.innerText == "."){
         if(!operator.match(operatorExpression) && !numberOne.match(decimalExpression)){
@@ -186,17 +180,20 @@ function handleClick(e){
     
 }
 
-/*
+
 function updateDisplay(){
-    if(numberOne != null){
-        calculatorScreen.textContent = numberOne;
-    } else if(numberTwo != null){
-        calculatorScreen.textContent = numberOne + operator + numberTwo;
-    } else if(numberOne != null && operator.length != 0){
-        calculatorScreen.textContent = numberOne + operator;
+    switch(true){
+        case(numberOne != null && operator == ""):
+            calculatorScreen.textContent = numberOne;
+            break;
+        case(numberOne != null && operator != "" && numberTwo == null):
+            calculatorScreen.textContent = numberOne + operator;
+            break;
+        case(numberTwo != null):
+            calculatorScreen.textContent = numberOne + operator + numberTwo;
     }
 }
-*/
+
 
 function handleKeyPress(e){
 
@@ -207,15 +204,12 @@ function handleKeyPress(e){
     switch(true){
         case(operatorExpression.test(e.key) && numberOne != null):
             newOperator = e.key;
-            console.log('assigning operator');
             assignOperator(newOperator);
             break;
-            //updateDisplay();
 
         case(operator == "" && numberExpression.test(e.key)):
             numberOneArray.push(e.key);
             assignOperandOne();
-            console.log(`Number one: ${numberOne}`);
             break;
 
         case(operator == "" && !numberOne.includes(".") && decimalExpression.test(e.key)):
@@ -248,7 +242,6 @@ let numberOne = null;
 let operator = "";
 let numberTwoArray = [];
 let numberTwo = null;
-let operation = "";
 
 const calculatorScreen = document.querySelector('.calculator-text');
 const calculator = document.querySelector(".calculator-body");
