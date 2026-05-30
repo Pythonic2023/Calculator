@@ -86,15 +86,18 @@ function clearOperandsAndOperator(clearNumberOne){
 function deleteLastEntry(){
     if(numberTwo === "" && operator != ""){
         operator = "";
-        calculatorScreen.textContent = numberOne;
+        //calculatorScreen.textContent = numberOne;
+        updateDisplay();
     } else if(numberOne != null && operator.length == 0){
         numberOne = numberOne.slice(0, -1);
         numberOneArray = numberOneArray.slice(0, -1);
-        calculatorScreen.textContent = numberOne;
+        //calculatorScreen.textContent = numberOne;
+        updateDisplay();
     } else {
         numberTwo = numberTwo.slice(0, -1);
         numberTwoArray = numberTwoArray.slice(0, -1);
-        calculatorScreen.textContent = numberOne + operator + numberTwo;
+        //calculatorScreen.textContent = numberOne + operator + numberTwo;
+        updateDisplay();
     }
 }
 
