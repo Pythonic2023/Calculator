@@ -89,12 +89,13 @@ function clearOperandsAndOperator(clearNumberOne){
 }
 
 function deleteLastEntry(){
-    if(numberTwo === "" && operator != ""){
+    if(numberTwo === null && operator != ""){
         operator = "";
         //calculatorScreen.textContent = numberOne;
         updateDisplay();
     } else if(numberOne != null && operator.length == 0){
-        numberOne = numberOne.slice(0, -1);
+        let stringNumberOne = String(numberOne);
+        numberOne = stringNumberOne.slice(0, -1);
         numberOneArray = numberOneArray.slice(0, -1);
         //calculatorScreen.textContent = numberOne;
         updateDisplay();
@@ -207,6 +208,11 @@ function handleKeyPress(e){
     const decimalExpression = /[\.]/g;
 
     switch(true){
+
+        case(e.key == "Backspace" || e.key == "Delete"):
+            deleteLastEntry();
+            break;
+
         case(operatorExpression.test(e.key) && numberOne != null):
             newOperator = e.key;
             assignOperator(newOperator);
@@ -234,10 +240,6 @@ function handleKeyPress(e){
 
         case(e.key == "Enter" && numberTwo != null):
             operate(numberOne, operator, numberTwo);
-            break;
-
-        case(e.key == "Backspace" || e.key == "Delete"):
-            deleteLastEntry();
             break;
     }
 }
