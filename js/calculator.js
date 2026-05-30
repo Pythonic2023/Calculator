@@ -47,8 +47,13 @@ function divide(operandOne, operandTwo){
         numberOne = floatingNumber;
     } else {
         let result = operandOne / operandTwo;
-        numberOne = result;
-        roundNumber(result);
+        let stringResult = String(result);
+        if(stringResult.match(/\./)){
+            numberOne = result;
+            updateDisplay();
+        } else{
+            roundNumber(result);
+        }
     }
 }
 
